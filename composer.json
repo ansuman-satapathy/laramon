@@ -1,0 +1,27 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "ansuman/laramon",
+    "version": "1.0.0",
+    "description": "A Laravel monitoring package for real-time request, query, and system health tracking.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "ansuman",
+            "email": "satapathyansuman@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ansuman\\LaraMon\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ansuman\\LaraMon\\LaraMonServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
