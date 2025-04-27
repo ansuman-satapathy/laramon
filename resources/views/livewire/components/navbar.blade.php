@@ -10,8 +10,6 @@
 
             <flux:menu>
                 <flux:menu.item icon="cog-6-tooth" href="#">Profile Settings</flux:menu.item>
-                <flux:menu.separator />
-                <flux:menu.item icon="arrow-right-start-on-rectangle" href="#">Logout</flux:menu.item>
             </flux:menu>
         </flux:dropdown>
     </flux:header>

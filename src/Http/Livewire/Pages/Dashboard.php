@@ -2,7 +2,7 @@
 
 namespace Ansuman\LaraMon\Http\Livewire\Pages;
 
-use DB;
+use Ansuman\LaraMon\Models\LaraMonRequest;
 use Livewire\Component;
 use Carbon\Carbon;
 
@@ -10,27 +10,14 @@ class Dashboard extends Component
 {
     public function render(): mixed
     {
-        $totalRequests = DB::table('laramon_requests')->count();
-        $uniqueUsers = DB::table('laramon_requests')->distinct('user_id')->count('user_id');
-        $avgResponseTime = round(DB::table('laramon_requests')->avg('execution_time'), 2);
-        $slowRequests = DB::table('laramon_requests')->where('is_slow', true)->count();
-        $totalDataSent = round(DB::table('laramon_requests')->sum('response_size') / 1024 / 1024, 2);
-        $status500s = DB::table('laramon_requests')->where('status_code', 500)->count();
+        $today = Carbon::today();
 
-        $yesterday = Carbon::now()->subDay();
-
-        $yesterdayTotalRequests = DB::table('laramon_requests')
-            ->where('created_at', '>=', $yesterday)
-            ->count();
-
-        $yesterdayAvgResponseTime = DB::table('laramon_requests')
-            ->where('created_at', '>=', $yesterday)
-            ->avg('execution_time');
-
-        $yesterdayStatus500s = DB::table('laramon_requests')
-            ->where('created_at', '>=', $yesterday)
-            ->where('status_code', 500)
-            ->count();
+        $totalRequests = LaraMonRequest::count();
+        $uniqueUsers = LaraMonRequest::distinct('user_id')->count('user_id');
+        $avgResponseTime = round(LaraMonRequest::avg('execution_time'), 2);
+        $slowRequests = LaraMonRequest::where('is_slow', true)->count();
+        $totalDataSent = round(LaraMonRequest::sum('response_size') / 1024 / 1024, 2);
+        $status500s = LaraMonRequest::where('status_code', 500)->count();
 
         return view('laramon::livewire.pages.dashboard', [
             'stats' => [
@@ -39,8 +26,7 @@ class Dashboard extends Component
                     'value' => number_format($totalRequests),
                     'icon' => 'server',
                     'bgColor' => 'bg-accent-content',
-                    'trend' => $this->calculateTrend($totalRequests, $yesterdayTotalRequests),
-                    'subtitle' => 'Requests in last 24h',
+                    'subtitle' => 'Total Request(all time)',
                 ],
                 [
                     'title' => 'Unique Users',
@@ -54,8 +40,7 @@ class Dashboard extends Component
                     'value' => "{$avgResponseTime}ms",
                     'icon' => 'clock',
                     'bgColor' => 'bg-accent-content',
-                    'trend' => $this->calculateTrend($avgResponseTime, $yesterdayAvgResponseTime),
-                    'subtitle' => 'Performance over time',
+                    'subtitle' => 'Avg response time today vs all time',
                 ],
                 [
                     'title' => 'Slow Requests',
@@ -76,20 +61,10 @@ class Dashboard extends Component
                     'value' => number_format($status500s),
                     'icon' => 'bug-ant',
                     'bgColor' => 'bg-accent-content',
-                    'trend' => $this->calculateTrend($status500s, $yesterdayStatus500s),
-                    'subtitle' => 'Internal server errors',
+                    'subtitle' => '500 Errors today vs all time',
                 ],
             ]
         ])->layout('laramon::layouts.app');
     }
 
-    /**
-     * Calculate trend percentage change.
-     */
-    private function calculateTrend($current, $previous): ?int
-    {
-        if ($previous == 0)
-            return null;
-        return round((($current - $previous) / $previous) * 100);
-    }
 }

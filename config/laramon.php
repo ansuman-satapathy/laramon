@@ -42,4 +42,12 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Database Query Logging
+    |--------------------------------------------------------------------------
+    | slow_query_threshold: Threshold for logging slow database queries (in ms).
+    */
+    'slow_query_threshold' => 300, // Threshold for slow queries in milliseconds
+
 ];

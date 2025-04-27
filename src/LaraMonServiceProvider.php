@@ -31,6 +31,7 @@ class LaraMonServiceProvider extends ServiceProvider
             Livewire::component('laramon.navbar', \Ansuman\LaraMon\Http\Livewire\Components\Navbar::class);
             Livewire::component('laramon.card', \Ansuman\LaraMon\Http\Livewire\Components\Card::class);
             Livewire::component('laramon.recent-requests-table', \Ansuman\LaraMon\Http\Livewire\Components\RecentRequestsTable::class);
+            Livewire::component('laramon.recent-db-queries-table', \Ansuman\LaraMon\Http\Livewire\Components\RecentDbQueriesTable::class);
         }
     }
 

@@ -2,7 +2,8 @@
     #table-perPage {
         padding: 11px;
     }
-    input[placeholder="Search"]{
+
+    input[placeholder="Search"] {
         padding-left: 5px;
     }
 </style>
@@ -12,8 +13,9 @@
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($stats as $stat)
-            <livewire:laramon.card :title="$stat['title']" :value="$stat['value']" :icon="$stat['icon']" :bgColor="$stat['bgColor']"
-                :subtitle="$stat['subtitle'] ?? null" :trend="$stat['trend'] ?? null" :url="$stat['url'] ?? null" />
+            <livewire:laramon.card :title="$stat['title']" :value="$stat['value']" :icon="$stat['icon']"
+                :bgColor="$stat['bgColor']" :subtitle="$stat['subtitle'] ?? null" :trend="$stat['trend'] ?? null"
+                :url="$stat['url'] ?? null" />
         @endforeach
     </div>
 
@@ -25,10 +27,12 @@
     </div>
 </div>
 
+@script
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         setInterval(() => {
             Livewire.dispatch('refreshTable');
         }, 5000);
     });
 </script>
+@endscript
